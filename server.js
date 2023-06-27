@@ -11,6 +11,7 @@ const cookieParser = require(`cookie-parser`)
 const fileUpload = require(`express-fileupload`)
 const cors = require(`cors`)
 const { credentials } = require("./config/credentials")
+const corsOptions = require("./config/corsOptions")
 
 
 // Connect Database 
@@ -27,11 +28,10 @@ app.use(fileUpload({
 }))
 
 // Cors 
-app.use(cors())
+app.use(cors({ origin: true, credentials: true }))
 
 // Credentials 
 app.use(credentials)
-
 //Cloudinary 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 

@@ -45,13 +45,6 @@ const userCtrl = {
             })
 
             const accessToken = createAccessToken({id:newUser._id})
-            const refreshToken = createRefreshToken({id:newUser._id})
-
-            res.cookie(`refreshToken`,refreshToken,{
-                httpOnly:true,
-                maxAge:24 * 60 * 60 * 1000,
-                path:`/user/refresh_token`
-            })
 
             res.status(201).json({
                 accessToken:accessToken,
@@ -82,17 +75,8 @@ const userCtrl = {
             if(passwordMatch){
                 
                      const accessToken = createAccessToken({id:foundUser._id})
-                     const refreshToken = createRefreshToken({id:foundUser._id})
-         
-                     res.cookie(`refreshToken`,refreshToken,{
-                         httpOnly:true,
-                         maxAge:24 * 60 * 60 * 1000,
-                         path:`/user/refresh_token`
-                     })
-         
+                    
                      res.json({accessToken})
-                     //
-
                      
             }else{
                 res.status(401).json({message:{
@@ -101,35 +85,6 @@ const userCtrl = {
                 }})
             }
             
-
-        }catch(error){
-            res.status(500).json({errMessage:error.message})
-        }
-    },
-    refreshToken:async(req,res) => {
-        try{
-             const refreshToken = req.cookies.refreshToken 
-
-            if(!refreshToken){
-                return res.status(401).json({message:{
-                    arm:"Ձեր սեսսիան ավարտվել է,խնդրում ենք մուտք գործել կրկին",
-                    eng:"Your session expired,please login again"
-                }})
-            }
-
-            jwt.verify(
-                refreshToken,
-                process.env.REFRESH_TOKEN_SECRET,
-                (error,decodedUser) => {
-                    if(error) return res.status(403).json({message:{
-                        arm:"Հարցումը վավեր չէ",
-                        eng:"Invalid token"
-                    }})
-
-                    const accessToken = createAccessToken({id:decodedUser.id})
-                    res.json({accessToken})
-                }
-            )
 
         }catch(error){
             res.status(500).json({errMessage:error.message})
@@ -153,7 +108,7 @@ const userCtrl = {
         try{
 
             const user = await User.findOne({_id:req.user.id}).select(`-password`)
-
+            
             if(!user) {
                 return res.status(400).json({message:{
                     arm:"Օգտատեր չի գտնվել",
@@ -339,17 +294,10 @@ const createAccessToken = (userId) => {
     return jwt.sign(
         userId,
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:`1h`}
+        { expiresIn: '24h' }
     )
 }
 
-const createRefreshToken = (userId) => {
-    return jwt.sign(
-        userId,
-        process.env.REFRESH_TOKEN_SECRET,
-        {expiresIn:`1d`}
-    )
-}
 const validatePassword = (password) => {
     if(password.length < 6){
         return false

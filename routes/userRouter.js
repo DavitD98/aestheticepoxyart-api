@@ -5,7 +5,6 @@ const router = require(`express`).Router()
 
 router.post(`/register`,userCtrl.register)
 router.post(`/login`,userCtrl.login)
-router.get(`/refresh_token`,userCtrl.refreshToken)
 router.get(`/logout`,userCtrl.logout)
 router.get(`/infor`,verifyToken,userCtrl.getUser)
 router.put(`/add_cart`,verifyToken,userCtrl.addCart)

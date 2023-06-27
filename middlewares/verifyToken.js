@@ -9,16 +9,14 @@ const verifyToken = (req,res,next) => {
         arm:"Անհրաժեշտ է մուտք գործել",
         eng:"Please login or register"
     }})
-
     jwt.verify(
         accessToken,
         process.env.ACCESS_TOKEN_SECRET,
         (error,decodedUser) => {
             if(error) return res.status(403).json({message:{
-                arm:"Մուտքը վավեր չէ",
-                eng:"Invalid token"
+                arm:"Ձեր սեսսիան ավարտվել է,խնդրում ենք նորից մուտք գործել",
+                eng:"Session expired,please log in again"
             }})
-
             req.user = decodedUser
             next()
         }
