@@ -1,6 +1,6 @@
 
 const WHITE_LIST = [
-    `https://epoxyart.onrender.com`,
+    `https://aestheticepoxyart.onrender.com`,
     `http://localhost:3000`,
     `https://www.aestheticart.am`
 ]
