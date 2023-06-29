@@ -26,7 +26,7 @@ router.post(`/upload`,verifyToken,verifyAdmin,(req,res) => {
        
 
           cloudinary.v2.uploader.upload(file.tempFilePath,{folder:"Aesthetic epoxy art"},async(error,result) => {
-            if (error) throw erro 
+            if (error) throw error
 
             res.json({
                 public_id:result.public_id,
@@ -36,6 +36,7 @@ router.post(`/upload`,verifyToken,verifyAdmin,(req,res) => {
 
     }catch(error){
         res.status(500).json({errMessage:error.message})
+        console.log(error)
     }
 })
 
