@@ -35,7 +35,7 @@ app.use(credentials)
 //Cloudinary 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 
-    api_key: process.env.API_KEY, 
+    api_key: process.env.API_KEy, 
     api_secret: process.env.API_SECRET,
     secure: true
 })
