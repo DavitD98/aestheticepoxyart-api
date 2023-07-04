@@ -28,14 +28,14 @@ app.use(fileUpload({
 }))
 
 // Cors 
-app.use(cors({ origin: true, credentials: true }))
+app.use(cors())
 
 // Credentials 
 app.use(credentials)
 //Cloudinary 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 
-    api_key: process.env.API_KEY, 
+    api_key: process.env.API_KEy, 
     api_secret: process.env.API_SECRET,
     secure: true
 })
@@ -50,6 +50,7 @@ app.use(`/api`,require(`./routes/typeRouter`))
 app.use(`/api`,require(`./routes/statusRouter`))
 app.use(`/api`,require(`./routes/orderRouter`))
 
+app.use(`/api`,require(`./routes/contactRouter`))
 
 mongoose.connection.once(`open`,() => {
     console.log(`Connected to database`);
